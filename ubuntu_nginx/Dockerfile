@@ -1,21 +1,18 @@
 FROM ubuntu:18.04
-RUN apt-get update && apt-get upgrade -y
-RUN apt-get install software-properties-common -y
-RUN DEBIAN_FRONTEND=noninteractive apt-get autoremove
+RUN apt-get update && apt-get upgrade -y && apt-get install software-properties-common -y && rm -rf /var/lib/apt/lists/* && DEBIAN_FRONTEND=noninteractive apt-get autoremove
 
 ENV TZ=Europe/Kiev
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 RUN add-apt-repository ppa:ondrej/php
-RUN apt-get install php7.3-fpm  nginx -y
-
+RUN apt-get install php7.3-fpm  nginx -y && rm -rf /var/lib/apt/lists/* 
 
 COPY nginx-site.conf /etc/nginx/sites-enabled/default
 COPY entrypoint.sh /etc/entrypoint.sh
 
 COPY --chown=www-data:www-data web /var/www/mysite/web/
-RUN mkdir /run/php && chown www-data:www-data /run/php
-RUN sed -i 's+/run/php/php7.3-fpm.sock+127.0.0.1:9000+g' /etc/php/7.3/fpm/pool.d/www.conf
+RUN mkdir /run/php && chown www-data:www-data /run/php && \
+sed -i 's+/run/php/php7.3-fpm.sock+127.0.0.1:9000+g' /etc/php/7.3/fpm/pool.d/www.conf
 
 
 WORKDIR /var/www/mysite
