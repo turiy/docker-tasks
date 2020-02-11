@@ -43,5 +43,5 @@ RUN  cd /var/www/ && wget https://ftp.drupal.org/files/projects/drupal-8.8.2.tar
 COPY --chown=${uGroup}:${uName} entrypoint.sh /etc/entrypoint.sh
 
 EXPOSE 8080 443 9000
-#USER ${uName}
+USER ${uName}
 ENTRYPOINT ["sh", "/etc/entrypoint.sh"]

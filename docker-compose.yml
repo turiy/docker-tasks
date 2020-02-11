@@ -10,10 +10,10 @@ services:
             - '80:8080'
 
     volumes:
-            - storage-drupal:/var/www/drupal/modules
-            - storage-drupal:/var/www/drupal/profiles
-            - storage-drupal:/var/www/drupal/themes
-            - storage-drupal:/var/www/drupal/sites
+            - drupal_modules:/var/www/drupal/modules
+            - drupal_profiles:/var/www/drupal/profiles
+            - drupal_themes:/var/www/drupal/themes
+            - drupal_sites:/var/www/drupal/sites
     networks:
       - drupal-net
     restart: always
@@ -35,7 +35,7 @@ services:
       - '3306'
       # Where our data will be persisted
     volumes:
-      - storage-mysql:/var/lib/mysql
+      - drupal_mysql:/var/lib/mysql
     networks:
       - drupal-net
     restart: always
@@ -45,6 +45,8 @@ networks:
 
 
 volumes:
-  storage-drupal:
-  storage-mysql:
-
+  drupal_mysql:
+  drupal_modules:
+  drupal_profiles:
+  drupal_themes:
+  drupal_sites:
